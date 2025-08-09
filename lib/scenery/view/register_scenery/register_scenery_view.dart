@@ -5,8 +5,14 @@ import 'package:software_quality/scenery/view_model/scenery_view_model.dart';
 import 'package:software_quality/widgets/text_form_field_widget.dart';
 
 // ignore: must_be_immutable
-class RegisterSceneryView extends StatelessWidget {
-  RegisterSceneryView({super.key});
+class RegisterSceneryView extends StatefulWidget {
+  const RegisterSceneryView({super.key});
+
+  @override
+  State<RegisterSceneryView> createState() => _RegisterSceneryViewState();
+}
+
+class _RegisterSceneryViewState extends State<RegisterSceneryView> {
   SceneryViewModel sceneryViewModel = SceneryViewModel();
 
   @override
@@ -49,29 +55,20 @@ class RegisterSceneryView extends StatelessWidget {
           ],
         ),
       ),
-      persistentFooterButtons: [
-        TextButton(
-          onPressed: () async => Navigator.pop(context, true),
-          child: const Text(
-            'Voltar',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
+      floatingActionButton: TextButton(
+        onPressed: () async {
+          if (sceneryViewModel.description.text == '') return;
+
+          await sceneryViewModel.registerScenery();
+          await sceneryViewModel.registerPace();
+          sceneryViewModel.clear();
+          setState(() {});
+        },
+        child: const Text(
+          'SALVAR',
+          style: TextStyle(color: Colors.black, fontSize: 16),
         ),
-        TextButton(
-          onPressed: () async {
-            if (sceneryViewModel.description.text == '') return;
-
-            await sceneryViewModel.register();
-
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context, true);
-          },
-          child: const Text(
-            'SALVAR',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
-        )
-      ],
+      ),
     );
   }
 }

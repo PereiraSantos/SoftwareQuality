@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:software_quality/execution/component/card_execution.dart';
 import 'package:software_quality/execution/model/execution.dart';
 import 'package:software_quality/execution/model_view/execution_model_view.dart';
-import 'package:software_quality/execution/view/register_execution/register_execution_view.dart';
-import 'package:software_quality/scenery/view/list_scenery/list_scenery_view.dart';
-import 'package:software_quality/usercases/to_page_route.dart';
 
 class ListExecutionView extends StatefulWidget {
   const ListExecutionView({super.key});
@@ -45,34 +42,6 @@ class _ListExecutionViewState extends State<ListExecutionView> {
           }
         },
       ),
-      persistentFooterButtons: [
-        TextButton(
-          onPressed: () async {
-            var result = await Navigator.of(context).push(
-              ToPageRoute.createRoute(RegisterExecutionView()),
-            );
-
-            if (result) setState(() {});
-          },
-          child: const Text(
-            'Criar teste',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
-        ),
-        TextButton(
-          onPressed: () async {
-            var result = await Navigator.of(context).push(
-              ToPageRoute.createRoute(const ListSceneryView()),
-            );
-
-            if (result) setState(() {});
-          },
-          child: const Text(
-            'Cenarios',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
-        )
-      ],
     );
   }
 }

@@ -45,7 +45,7 @@ class ExecutionModelView {
       List<Scenery> scenerys = [];
 
       for (int j = 0; j < data[i]['scenerys'].length; j++) {
-        scenerys.add(Scenery(description: data[i]['scenerys'][j], paces: []));
+        scenerys.add(Scenery(description: data[i]['scenerys'][j]));
       }
 
       executions.add(

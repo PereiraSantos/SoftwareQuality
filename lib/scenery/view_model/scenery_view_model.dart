@@ -1,67 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:software_quality/scenery/datasource/pace_dao.dart';
+import 'package:software_quality/scenery/datasource/scenery_dao.dart';
 import 'package:software_quality/scenery/model/pace.dart';
 import 'package:software_quality/scenery/model/scenery.dart';
-import 'package:software_quality/usercases/save_file.dart';
 
 class SceneryViewModel {
   TextEditingController description = TextEditingController();
   TextEditingController expectedResult = TextEditingController();
   TextEditingController acceptanceCriteria = TextEditingController();
   TextEditingController pace = TextEditingController();
+  SceneryDao sceneryDao = SceneryDao();
+  PaceDao paceDao = PaceDao();
 
   List<Pace> paces = [];
 
   void clearPace() => pace.clear();
 
-  Future<void> register() async {
-    List<Scenery> list = await getScenery();
+  void clear() {
+    pace.clear();
+    description.clear();
+    expectedResult.clear();
+    acceptanceCriteria.clear();
+    paces.clear();
+  }
 
-    list.add(Scenery(
-      id: list.length + 1,
-      description: description.text,
-      expectedResult: expectedResult.text,
-      acceptanceCriteria: acceptanceCriteria.text,
-      paces: paces,
-    ));
+  Future<void> registerScenery() async {
+    await sceneryDao.insert(<String, Object?>{
+      'id': null,
+      'description': description.text,
+      'expectedResult': expectedResult.text,
+      'acceptanceCriteria': acceptanceCriteria.text,
+    });
+  }
 
-    List<Map<String, dynamic>> data = [];
-
-    for (var item in list) {
-      data.add({
-        'id': item.id,
-        'description': item.description,
-        'expectedResult': item.expectedResult,
-        'acceptanceCriteria': item.acceptanceCriteria,
-        'paces': item.paces.map((e) => e.description).toList()
-      });
+  Future<void> registerPace() async {
+    for (var e in paces) {
+      await paceDao.insert(<String, Object?>{'id': null, 'description': e.description, 'idScenery': sceneryDao.id});
     }
-
-    await SaveFile().writeJsonToFile(data, 'scenery.json');
   }
 
   Future<List<Scenery>> getScenery() async {
-    List<dynamic>? data = await SaveFile().readJsonFromFile('scenery.json');
-
-    if (data == null) return [];
+    var data = await sceneryDao.find();
 
     List<Scenery> scenerys = [];
 
     for (int i = 0; i < data.length; i++) {
-      List<Pace> paces = [];
-
-      for (int j = 0; j < data[i]['paces'].length; j++) {
-        paces.add(Pace(description: data[i]['paces'][j]));
-      }
-
       scenerys.add(Scenery(
-        id: data[i]['id'],
-        description: data[i]['description'],
-        expectedResult: data[i]['expectedResult'],
-        acceptanceCriteria: data[i]['acceptanceCriteria'],
-        paces: paces,
+        id: int.parse(data[i]['id'].toString()),
+        description: data[i]['description'].toString(),
+        expectedResult: data[i]['expectedResult'].toString(),
+        acceptanceCriteria: data[i]['acceptanceCriteria'].toString(),
       ));
     }
 
+    await getPace();
+
     return scenerys;
+  }
+
+  Future<void> getPace() async {
+    var data = await paceDao.find();
+
+    for (int i = 0; i < data.length; i++) {
+      paces.add(Pace(
+        id: int.parse(data[i]['id'].toString()),
+        description: data[i]['description'].toString(),
+        idScenery: int.parse(data[i]['idScenery'].toString()),
+      ));
+    }
   }
 }

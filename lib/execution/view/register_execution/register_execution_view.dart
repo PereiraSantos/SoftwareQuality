@@ -75,27 +75,15 @@ class RegisterExecutionView extends StatelessWidget {
           ],
         ),
       ),
-      persistentFooterButtons: [
-        TextButton(
-          onPressed: () async => Navigator.pop(context, true),
-          child: const Text(
-            'Voltar',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
+      floatingActionButton: TextButton(
+        onPressed: () async {
+          await executionModelView.register();
+        },
+        child: const Text(
+          'SALVAR',
+          style: TextStyle(color: Colors.black, fontSize: 16),
         ),
-        TextButton(
-          onPressed: () async {
-            await executionModelView.register();
-
-            // ignore: use_build_context_synchronously
-            Navigator.pop(context, true);
-          },
-          child: const Text(
-            'Salvar',
-            style: TextStyle(color: Colors.black, fontSize: 16),
-          ),
-        )
-      ],
+      ),
     );
   }
 }

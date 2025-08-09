@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:software_quality/dashboard/view/dashboard.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
       ),
-      home: Dashboard(),
+      home: const Dashboard(),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/execution/view/list_execution/list_execution_view.dart';
-import 'package:software_quality/execution/view/register_execution/register_execution_view.dart';
+
 import 'package:software_quality/scenery/view/list_scenery/list_scenery_view.dart';
 import 'package:software_quality/scenery/view/register_scenery/register_scenery_view.dart';
+import 'package:software_quality/test_battery/view/list_test_battery/list_test_battery.dart';
+import 'package:software_quality/test_battery/view/register_test_battery/register_test_battery.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key, required this.onClick});
@@ -15,8 +16,8 @@ class LeftDrawer extends StatelessWidget {
       decoration: const BoxDecoration(border: Border(right: BorderSide(color: Colors.grey))),
       child: ListView(
         children: [
-          _tile('Testes', const ListExecutionView()),
-          _tile('Cadastra Teste', RegisterExecutionView()),
+          _tile('Testes', ListTestBattery()),
+          _tile('Cadastra Teste', const RegisterTestBattery()),
           _tile('Cenários', const ListSceneryView()),
           _tile('Cadastra Cenário', const RegisterSceneryView()),
         ],

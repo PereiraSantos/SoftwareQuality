@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/execution/view/list_execution/list_execution_view.dart';
+import 'package:software_quality/test_battery/view/list_test_battery/list_test_battery.dart';
 
 import 'package:software_quality/widgets/left_drawer.dart';
 
@@ -12,7 +12,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  Widget child = const ListExecutionView();
+  Widget child = ListTestBattery();
 
   void _update(Widget value) {
     setState(() {

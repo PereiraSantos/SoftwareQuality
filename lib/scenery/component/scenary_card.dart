@@ -15,13 +15,15 @@ class ScenaryCard extends StatelessWidget {
     return Card(
       elevation: 6,
       child: Container(
-        width: 400,
+        width: 300,
         margin: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Cenário: ${scenery.description ?? ''}'),
+            Text(
+              'Cenário: ${scenery.description ?? ''}',
+            ),
             const Padding(
               padding: EdgeInsets.only(top: 5, bottom: 5),
               child: Divider(

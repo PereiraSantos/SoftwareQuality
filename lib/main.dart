@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:software_quality/dashboard/view/dashboard.dart';
+import 'package:software_quality/usercases/create_table.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await CreateTable().createTable();
+
   runApp(const MyApp());
 }
 

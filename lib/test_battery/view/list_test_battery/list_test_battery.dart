@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/execution/component/card_execution.dart';
-import 'package:software_quality/execution/model/execution.dart';
-import 'package:software_quality/execution/model_view/execution_model_view.dart';
+import 'package:software_quality/test_battery/component/card_test_battery.dart';
+import 'package:software_quality/test_battery/model/test_battery.dart';
+import 'package:software_quality/test_battery/view_model/test_battery_view_model.dart';
 
-class ListExecutionView extends StatefulWidget {
-  const ListExecutionView({super.key});
+class ListTestBattery extends StatelessWidget {
+  ListTestBattery({super.key});
 
-  @override
-  State<ListExecutionView> createState() => _ListExecutionViewState();
-}
+  final TestBatteryViewModel testBatteryViewModel = TestBatteryViewModel();
 
-class _ListExecutionViewState extends State<ListExecutionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: ExecutionModelView().getExecution(),
-        builder: (BuildContext context, AsyncSnapshot<List<Execution>> snapshot) {
+        future: testBatteryViewModel.getTestBattery(),
+        builder: (BuildContext context, AsyncSnapshot<List<TestBattery>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!.isNotEmpty) {
               return Wrap(
                 direction: Axis.horizontal,
                 children: [
                   ...snapshot.data!.map((e) {
-                    return CardExecution(execution: e);
+                    return CardTestBattery(
+                      testBattery: e,
+                      testBatteryScenery: testBatteryViewModel.testBatteryScenerys.where((item) => item.idTextBattery == e.id).toList(),
+                    );
                   }),
                 ],
               );

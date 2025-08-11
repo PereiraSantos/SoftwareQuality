@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/execution/component/check_box_scenery.dart';
-import 'package:software_quality/execution/model_view/execution_model_view.dart';
 import 'package:software_quality/scenery/model/scenery.dart';
 import 'package:software_quality/scenery/view_model/scenery_view_model.dart';
+import 'package:software_quality/test_battery/component/check_box_scenery.dart';
+import 'package:software_quality/test_battery/view_model/test_battery_view_model.dart';
 import 'package:software_quality/widgets/text_form_field_widget.dart';
 
-// ignore: must_be_immutable
-class RegisterExecutionView extends StatelessWidget {
-  RegisterExecutionView({super.key});
+class RegisterTestBattery extends StatefulWidget {
+  const RegisterTestBattery({super.key});
 
-  ExecutionModelView executionModelView = ExecutionModelView();
+  @override
+  State<RegisterTestBattery> createState() => _RegisterTestBatteryState();
+}
+
+class _RegisterTestBatteryState extends State<RegisterTestBattery> {
+  final TestBatteryViewModel testBatteryViewModel = TestBatteryViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +22,14 @@ class RegisterExecutionView extends StatelessWidget {
         child: Column(
           children: [
             TextFormFieldWidget(
-              controller: executionModelView.description,
+              controller: testBatteryViewModel.description,
               hintText: 'Descrição',
               keyboardType: TextInputType.text,
               textArea: false,
               valid: false,
             ),
             TextFormFieldWidget(
-              controller: executionModelView.observation,
+              controller: testBatteryViewModel.observation,
               hintText: 'Observação',
               keyboardType: TextInputType.text,
               textArea: false,
@@ -51,7 +55,7 @@ class RegisterExecutionView extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return CheckBoxScenery(
                               scenery: snapshot.data![index],
-                              onClick: (value) => executionModelView.selectScenery(snapshot.data!, index, value),
+                              onClick: (value) => testBatteryViewModel.selectScenery(snapshot.data!, index, value),
                             );
                           },
                         ),
@@ -77,7 +81,9 @@ class RegisterExecutionView extends StatelessWidget {
       ),
       floatingActionButton: TextButton(
         onPressed: () async {
-          await executionModelView.register();
+          await testBatteryViewModel.registerTestBattery();
+          await testBatteryViewModel.registerTestBatteryScenery().whenComplete(() => testBatteryViewModel.clear());
+          setState(() {});
         },
         child: const Text(
           'SALVAR',

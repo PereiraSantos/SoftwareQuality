@@ -1,12 +1,12 @@
-class TestBatteryScenery {
+class FunctionalityScenery {
   int? id;
-  int? idTextBattery;
+  int? idFunctionality;
   int? idScenery;
   String? description;
 
-  TestBatteryScenery({
+  FunctionalityScenery({
     this.id,
-    this.idTextBattery,
+    this.idFunctionality,
     this.idScenery,
     this.description,
   });

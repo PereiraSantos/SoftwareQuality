@@ -21,10 +21,16 @@ class _CheckBoxSceneryState extends State<CheckBoxScenery> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(flex: 12, child: Text('Descrição: ${widget.scenery.description}')),
+          Expanded(
+            flex: 12,
+            child: Text(
+              widget.scenery.description ?? '',
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
           Expanded(
             child: SizedBox(
-              height: 28,
+              height: 25,
               child: Checkbox(
                 value: widget.scenery.select,
                 onChanged: (value) {

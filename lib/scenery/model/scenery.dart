@@ -1,15 +1,13 @@
 class Scenery {
   int? id;
   String? description;
-  String? expectedResult;
-  String? acceptanceCriteria;
+  String? observation;
   bool select;
 
   Scenery({
     this.id,
     this.description,
-    this.expectedResult,
-    this.acceptanceCriteria,
+    this.observation,
     this.select = false,
   });
 }

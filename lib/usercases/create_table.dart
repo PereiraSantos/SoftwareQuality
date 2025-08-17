@@ -4,10 +4,25 @@ class CreateTable {
   SQLiteHelper sqLiteHelper = SQLiteHelper();
 
   Future<void> createTable() async {
+    await _createTableScope();
     await _createTablePace();
+    await _createTableFunctionalityScope();
     await _createTableScenery();
-    await _createTableTestBattery();
-    await _createTableTestBatteryScenery();
+    await _createTableFunctionality();
+    await _createTableFunctionalityScenery();
+  }
+
+  Future<void> _createTableScope() async {
+    await sqLiteHelper.open();
+    await sqLiteHelper.database
+        .execute('CREATE TABLE IF NOT EXISTS scope(id INTEGER PRIMARY KEY, description TEXT, observation TEXT,expectedResult TEXT, acceptanceCriteriy TEXT)');
+    sqLiteHelper.close();
+  }
+
+  Future<void> _createTableFunctionalityScope() async {
+    await sqLiteHelper.open();
+    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS functionalityScope(id INTEGER PRIMARY KEY, idScope INTEGER, idFunctionality INTEGER)');
+    sqLiteHelper.close();
   }
 
   Future<void> _createTablePace() async {
@@ -18,20 +33,19 @@ class CreateTable {
 
   Future<void> _createTableScenery() async {
     await sqLiteHelper.open();
-    await sqLiteHelper.database
-        .execute('CREATE TABLE IF NOT EXISTS scenery(id INTEGER PRIMARY KEY, description TEXT, expectedResult TEXT, acceptanceCriteria TEXT)');
+    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS scenery(id INTEGER PRIMARY KEY, description TEXT, observation TEXT)');
     sqLiteHelper.close();
   }
 
-  Future<void> _createTableTestBattery() async {
+  Future<void> _createTableFunctionality() async {
     await sqLiteHelper.open();
-    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS testBattery(id INTEGER PRIMARY KEY, description TEXT, observation TEXT)');
+    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS functionality(id INTEGER PRIMARY KEY, description TEXT, observation TEXT)');
     sqLiteHelper.close();
   }
 
-  Future<void> _createTableTestBatteryScenery() async {
+  Future<void> _createTableFunctionalityScenery() async {
     await sqLiteHelper.open();
-    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS testBatteryScenery(id INTEGER PRIMARY KEY, idTextBattery INTEGER, idScenery INTEGER)');
+    await sqLiteHelper.database.execute('CREATE TABLE IF NOT EXISTS functionalityScenery(id INTEGER PRIMARY KEY, idFunctionality INTEGER, idScenery INTEGER)');
     sqLiteHelper.close();
   }
 }

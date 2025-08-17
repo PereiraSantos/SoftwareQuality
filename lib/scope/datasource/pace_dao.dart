@@ -30,5 +30,9 @@ class PaceDao extends SQLiteHelper implements DatasourceFactory {
   Future<void> update(Map<String, Object?> values) async {}
 
   @override
-  Future<void> delete(int id) async {}
+  Future<void> delete(int id) async {
+    await open();
+    database.delete('functionalityScope', where: 'id = ?', whereArgs: [id]);
+    close();
+  }
 }

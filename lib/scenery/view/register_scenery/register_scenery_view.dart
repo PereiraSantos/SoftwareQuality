@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/scenery/component/register_pace.dart';
+import 'package:software_quality/scenery/model/scenery.dart';
 
 import 'package:software_quality/scenery/view_model/scenery_view_model.dart';
 import 'package:software_quality/widgets/text_form_field_widget.dart';
 
 // ignore: must_be_immutable
 class RegisterSceneryView extends StatefulWidget {
-  const RegisterSceneryView({super.key});
+  const RegisterSceneryView({super.key, this.scenery});
+  final Scenery? scenery;
 
   @override
   State<RegisterSceneryView> createState() => _RegisterSceneryViewState();
@@ -14,6 +15,12 @@ class RegisterSceneryView extends StatefulWidget {
 
 class _RegisterSceneryViewState extends State<RegisterSceneryView> {
   SceneryViewModel sceneryViewModel = SceneryViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    sceneryViewModel.initValues(widget.scenery?.description ?? '', widget.scenery?.observation ?? '');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,31 +32,18 @@ class _RegisterSceneryViewState extends State<RegisterSceneryView> {
           children: [
             TextFormFieldWidget(
               controller: sceneryViewModel.description,
-              hintText: 'Cenário',
-              keyboardType: TextInputType.text,
-              textArea: false,
+              hintText: 'Descrição',
+              minLine: 1,
+              maxLine: 5,
+              keyboardType: TextInputType.multiline,
               valid: false,
             ),
             TextFormFieldWidget(
-              controller: sceneryViewModel.pace,
-              hintText: 'Pasos',
-              keyboardType: TextInputType.text,
-              textArea: true,
-              valid: false,
-            ),
-            RegisterPace(sceneryViewModel: sceneryViewModel),
-            TextFormFieldWidget(
-              controller: sceneryViewModel.expectedResult,
-              hintText: 'Resultado esperado',
-              keyboardType: TextInputType.text,
-              textArea: true,
-              valid: false,
-            ),
-            TextFormFieldWidget(
-              controller: sceneryViewModel.acceptanceCriteria,
-              hintText: 'Critério de aceitação',
-              keyboardType: TextInputType.text,
-              textArea: true,
+              controller: sceneryViewModel.observation,
+              hintText: 'Observação',
+              minLine: 1,
+              maxLine: 5,
+              keyboardType: TextInputType.multiline,
               valid: false,
             ),
           ],
@@ -59,8 +53,7 @@ class _RegisterSceneryViewState extends State<RegisterSceneryView> {
         onPressed: () async {
           if (sceneryViewModel.description.text == '') return;
 
-          await sceneryViewModel.registerScenery();
-          await sceneryViewModel.registerPace();
+          widget.scenery?.id != null ? await sceneryViewModel.updateScenery(widget.scenery!.id!) : await sceneryViewModel.registerScenery();
           sceneryViewModel.clear();
           setState(() {});
         },

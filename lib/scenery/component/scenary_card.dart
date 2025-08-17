@@ -1,50 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/scenery/model/pace.dart';
+
 import 'package:software_quality/scenery/model/scenery.dart';
+import 'package:software_quality/scenery/view/register_scenery/register_scenery_view.dart';
+import 'package:software_quality/usercases/rote/rote.dart';
+import 'package:software_quality/usercases/rote/rote_controller.dart';
+import 'package:software_quality/widgets/button_edit.dart';
 
 // ignore: must_be_immutable
 class ScenaryCard extends StatelessWidget {
-  ScenaryCard({super.key, required this.scenery, required this.paces});
+  const ScenaryCard({super.key, required this.scenery});
 
   final Scenery scenery;
-  final List<Pace> paces;
-  int i = 1;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
       child: Container(
-        width: 300,
+        width: 240,
         margin: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: Text(
+                    'Cenário: ${scenery.description ?? ''}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+                Expanded(
+                  child: ButtonEdit(
+                    onTap: () => RoteController.instance.child = Rote(RegisterSceneryView(scenery: scenery), true),
+                  ),
+                )
+              ],
+            ),
             Text(
-              'Cenário: ${scenery.description ?? ''}',
+              'Obsevação: ${scenery.observation ?? ''}',
+              style: const TextStyle(fontSize: 12),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 5, bottom: 5),
-              child: Divider(
-                height: 1,
-              ),
-            ),
-            ListView.builder(
-              itemCount: paces.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Text(
-                  'Passo ${i++}: ${paces[index].description ?? ''}',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 5,
-                );
-              },
-            ),
-            const Padding(padding: EdgeInsets.all(5)),
-            Text('Resultado esperado: ${scenery.expectedResult ?? ''}'),
-            Text('Critério de aceitação: ${scenery.acceptanceCriteria ?? ''}'),
           ],
         ),
       ),

@@ -1,48 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/test_battery/view/list_test_battery/list_test_battery.dart';
+import 'package:software_quality/usercases/rote/rote_controller.dart';
 
 import 'package:software_quality/widgets/left_drawer.dart';
 
 // ignore: must_be_immutable
-class Dashboard extends StatefulWidget {
+class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
-
-  @override
-  State<Dashboard> createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  Widget child = ListTestBattery();
-
-  void _update(Widget value) {
-    setState(() {
-      child = value;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 1,
-            child: LeftDrawer(
-              onClick: (value) => _update(value),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: child,
-          ),
-        ],
+      body: ListenableBuilder(
+        listenable: RoteController.instance,
+        builder: (BuildContext context, Widget? child) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 1,
+                child: LeftDrawer(roteSelect: RoteController.instance.child.child.toString()),
+              ),
+              Expanded(
+                flex: 4,
+                child: RoteController.instance.child.child,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

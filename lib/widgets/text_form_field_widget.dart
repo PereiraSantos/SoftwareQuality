@@ -15,10 +15,9 @@ class TextFormFieldWidget extends StatelessWidget {
     this.borderRadius,
     this.valid = true,
     this.suffixIcon,
-    this.textArea = false,
     this.readOnly = false,
     this.padding = const EdgeInsets.only(left: 20.0, top: 10, right: 20, bottom: 10),
-    this.fontSize = 18,
+    this.fontSize = 14,
     this.autofocus,
     this.contentPadding,
   });
@@ -32,7 +31,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final double? borderRadius;
   final bool valid;
   final Widget? suffixIcon;
-  final bool textArea;
+
   final bool readOnly;
   final Function(String?)? onChange;
   final EdgeInsetsGeometry? padding;

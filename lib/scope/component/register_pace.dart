@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/scenery/model/pace.dart';
-import 'package:software_quality/scenery/view_model/scenery_view_model.dart';
+import 'package:software_quality/scope/model/pace.dart';
+import 'package:software_quality/scope/view_model/scope_view_model.dart';
 
 class RegisterPace extends StatefulWidget {
-  const RegisterPace({super.key, required, required this.sceneryViewModel});
+  const RegisterPace({super.key, required, required this.scopeViewModel});
 
-  final SceneryViewModel sceneryViewModel;
+  final ScopeViewModel scopeViewModel;
 
   @override
   State<RegisterPace> createState() => _RegisterPaceState();
@@ -24,10 +24,10 @@ class _RegisterPaceState extends State<RegisterPace> {
         children: [
           TextButton(
             onPressed: () {
-              if (widget.sceneryViewModel.pace.text == '') return;
+              if (widget.scopeViewModel.pace.text == '') return;
 
-              widget.sceneryViewModel.paces.add(Pace(description: widget.sceneryViewModel.pace.text));
-              widget.sceneryViewModel.clearPace();
+              widget.scopeViewModel.paces.add(Pace(description: widget.scopeViewModel.pace.text));
+              widget.scopeViewModel.clearPace();
               setState(() {});
             },
             style: ButtonStyle(
@@ -40,10 +40,10 @@ class _RegisterPaceState extends State<RegisterPace> {
             ),
             child: const Text(
               'SALVAR',
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: TextStyle(color: Colors.black, fontSize: 12),
             ),
           ),
-          ...widget.sceneryViewModel.paces.map((e) {
+          ...widget.scopeViewModel.paces.map((e) {
             return Padding(
               padding: const EdgeInsets.only(left: 8, top: 5),
               child: Text('Passo ${i++}: ${e.description}'),

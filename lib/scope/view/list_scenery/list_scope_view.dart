@@ -1,40 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:software_quality/scenery/component/scenary_card.dart';
-import 'package:software_quality/scenery/model/scenery.dart';
-import 'package:software_quality/scenery/view_model/scenery_view_model.dart';
+
+import 'package:software_quality/scope/component/scope_card.dart';
+import 'package:software_quality/scope/model/scope.dart';
+import 'package:software_quality/scope/view_model/scope_view_model.dart';
 
 // ignore: must_be_immutable
-class ListSceneryView extends StatefulWidget {
-  const ListSceneryView({super.key});
+class ListScopeView extends StatefulWidget {
+  const ListScopeView({super.key});
 
   @override
-  State<ListSceneryView> createState() => _ListSceneryState();
+  State<ListScopeView> createState() => _ListSceopeViewState();
 }
 
-class _ListSceneryState extends State<ListSceneryView> {
-  SceneryViewModel sceneryViewModel = SceneryViewModel();
+class _ListSceopeViewState extends State<ListScopeView> {
+  ScopeViewModel scopeViewModel = ScopeViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: FutureBuilder(
-          future: sceneryViewModel.getScenery(),
-          builder: (BuildContext context, AsyncSnapshot<List<Scenery>> snapshot) {
+          future: scopeViewModel.getScope(),
+          builder: (BuildContext context, AsyncSnapshot<List<Scope>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isNotEmpty) {
                 return Wrap(
                   direction: Axis.horizontal,
                   children: [
                     ...snapshot.data!.map((e) {
-                      return ScenaryCard(scenery: e);
+                      return ScopeCard(
+                        scope: e,
+                        paces: scopeViewModel.paces.where((item) => item.idScenery == e.id).toList(),
+                      );
                     }),
                   ],
                 );
               } else {
                 return const Center(
                   child: Text(
-                    "Não há cenários!!!",
+                    "Não há escopo!!!",
                     style: TextStyle(fontSize: 18, color: Colors.black54, fontWeight: FontWeight.w300),
                   ),
                 );
